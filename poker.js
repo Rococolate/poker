@@ -5,6 +5,7 @@ const B = ['1B', '2B', '3B', '4B', '5B', '6B', '7B', '8B', '9B', '10B'];
 const C = ['1C', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '10C'];
 const D = ['1D', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', '10D'];
 let count = 0;
+let clcount = 0;
 let answer = [];
 let sy = {};
 
@@ -26,6 +27,7 @@ console.log(answer.sort());
 console.log(answer.length);
 console.log(sy);
 console.log(count);
+console.log(clcount);
 console.log(Date.now() - start,'ms');
 
 function syAdd(f){
@@ -144,7 +146,7 @@ function combination24 (a, b, c, d) {
         return calc(f, i, pre, cur);
       });
       // console.log(expression +' : '+e);  
-      if ( e / 24 === 1 && e % 24 < 0.000001 ) {boolen = expression;syAdd(f)}
+      boolen = is24(e, f, expression);
     });
 
     if (!!boolen) return ;
@@ -153,10 +155,20 @@ function combination24 (a, b, c, d) {
       if (!!boolen) return ;
       let expression = "("+String(n[0])+f[0]+String(n[1])+")"+f[1]+"("+String(n[2])+f[2]+String(n[3])+")";
       let e = o[f.join(',')].apply(null,[toNumber(n[0]), toNumber(n[1]), toNumber(n[2]), toNumber(n[3])]);
-      // console.log(expression +' : '+e);  
-      if ( e / 24 === 1 && e % 24 < 0.000001 ) {boolen = expression;syAdd(['('+f[0]+')',f[1],'('+f[2]+')'])}
+      // console.log(expression +' : '+e); 
+      boolen = is24(e, ['('+f[0]+')',f[1],'('+f[2]+')'], expression); 
     });
   });
+
+  function is24(e, f, expression){
+    clcount ++;
+    if ( e / 24 === 1 && e % 24 < 0.000001 ) {
+      syAdd(f);
+      return expression;
+    } else {
+      return false;
+    }
+  }
 
   function calc(array, type, pre, cur){
     let t = array[ type - 1 ];
