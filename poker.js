@@ -1,12 +1,11 @@
 'use strict';
-
+const start = Date.now();
 const A = ['1A', '2A', '3A', '4A', '5A', '6A', '7A', '8A', '9A', '10A'];
 const B = ['1B', '2B', '3B', '4B', '5B', '6B', '7B', '8B', '9B', '10B'];
 const C = ['1C', '2C', '3C', '4C', '5C', '6C', '7C', '8C', '9C', '10C'];
 const D = ['1D', '2D', '3D', '4D', '5D', '6D', '7D', '8D', '9D', '10D'];
-
+let count = 0;
 let answer = [];
-let obj = {length:0};
 let sy = {};
 
 // 遍历所有可能抽到的组合
@@ -14,6 +13,7 @@ A.forEach( a => {
   B.forEach( b => {
     C.forEach( c => {
       D.forEach( d => {
+        count ++;
         let res = combination24(a, b, c, d);
         if (!!res) answer.push(res);
       });
@@ -23,20 +23,10 @@ A.forEach( a => {
 
 // 排序
 console.log(answer.sort());
-// 是否有重复
-answer.forEach(item => {
-  if (obj[item] === undefined) {
-    obj[item] = 0;
-    obj.length++; 
-  } else {
-    obj[item] ++;
-  }
-});
-// console.log(obj);
 console.log(answer.length);
-console.log(obj.length);
 console.log(sy);
-
+console.log(count);
+console.log(Date.now() - start,'ms');
 
 function syAdd(f){
   let key = f.join(',');
