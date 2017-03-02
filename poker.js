@@ -94,6 +94,8 @@ function combination24 (a, b, c, d) {
     /*['/','/','+'],*/ /*['/','/','-'],*/ /*['/','/','*'],*/   /*['/','/','/'],*/ 
   ]
 
+  let l23 = l2.concat(l3);
+
   let l4 = [ // 结合
     /*['+','+','+'],*/ /*['+','+','-'],*/ /*['+','+','*'],*/   /*['+','+','/'],*/ 
     /*['+','-','+'],*/ /*['+','-','-'],*/ /*['+','-','*'],*/   /*['+','-','/'],*/
@@ -129,10 +131,11 @@ function combination24 (a, b, c, d) {
   // o['/,+,*'] = function(a, b, c, d){return (a / b) + (c * d)}; // 跑过一次后发现没有
   // o['/,-,*'] = function(a, b, c, d){return (a / b) - (c * d)}; // 跑过一次后发现没有
 
-  // 单纯
+  
   l1.forEach( n => {
     if (!!boolen) return ;
-    l2.forEach( f => {
+    // 单纯
+    l23.forEach( f => {
       if (!!boolen) return ;
       let expression = "(("+String(n[0])+f[0]+String(n[1])+")"+f[1]+String(n[2])+")"+f[2]+String(n[3]);
       let i = 0;
@@ -143,26 +146,9 @@ function combination24 (a, b, c, d) {
       // console.log(expression +' : '+e);  
       if ( e / 24 === 1 && e % 24 < 0.000001 ) {boolen = expression;syAdd(f)}
     });
-  });
-  // 复合
-  l1.forEach( n => {
-    if (!!boolen) return ;
-    l3.forEach( f => {
-      if (!!boolen) return ;
-      let expression = "(("+String(n[0])+f[0]+String(n[1])+")"+f[1]+String(n[2])+")"+f[2]+String(n[3]);
-      let i = 0;
-      let e = [toNumber(n[0]), toNumber(n[1]), toNumber(n[2]), toNumber(n[3])].reduce((pre, cur) => {
-        i ++;
-        return calc(f, i, pre, cur);
-      });
-      // console.log(expression +' : '+e);  
-      if ( e / 24 === 1 && e % 24 < 0.000001 ) {boolen = expression;syAdd(f)}
-    });
-  });
 
-  // 结合
-  l1.forEach( n => {
     if (!!boolen) return ;
+    // 结合
     l4.forEach( f => {
       if (!!boolen) return ;
       let expression = "("+String(n[0])+f[0]+String(n[1])+")"+f[1]+"("+String(n[2])+f[2]+String(n[3])+")";
