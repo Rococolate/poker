@@ -23,20 +23,23 @@ A.forEach( a => {
   }); 
 });
 
+
 let sortArray = answer.map( item => toString(item) ).sort(); 
 sortArray.forEach(item => {
   let cleaner = clear(item).split(',').sort();
   if ( sy2[cleaner] === undefined ) sy2[cleaner] = [];
   sy2[cleaner].push(item);
 });
-// 排序
-console.log(answer.length);
-console.log(sy);
-console.log(sy2);
-console.log(count);
-console.log(clcount);
-console.log(Date.now() - start,'ms');
 
+console.log(answer.length); // 答案
+console.log(sy); // 符号组合
+console.log(sy2); // 数字组合
+console.log(count); // 全部组合数
+console.log(clcount); // 对比查询次数
+console.log(Date.now() - start,'ms'); // 耗时
+
+
+//  查找函数
 function search(a,b,c,d){
   var key = [a,b,c,d].sort().join(',');
   return sy2[key];
@@ -46,13 +49,13 @@ function clear(item){
   return item.replace(/\(|\)/g,'').replace(/-|\*|\+|\//g,',');
 }
 
-function syAdd(f){
+function syAdd(f, expression){
   let key = f.join(',');
-  if (sy[key] === undefined) {
-    sy[key] = 0;
-  } else {
-    sy[key] ++;
-  }
+  let name = toString(expression);
+  if (sy[key] === undefined ) sy[key] = {length:0};
+  if (sy[key][name] === undefined ) sy[key][name] = [];
+  sy[key].length ++;
+  sy[key][name].push(expression);
 }
 
 function toString(str){
@@ -63,6 +66,7 @@ function toNumber(str){
   return Number(str.replace(/[A-D]/g,''));
 }
 
+// a b c d  === 24函数
 function combination24 (a, b, c, d) {
   let boolen = false;
   // 组合
@@ -200,7 +204,7 @@ function combination24 (a, b, c, d) {
   function is24(e, f, expression){
     clcount ++;
     if ( e / 24 === 1 && e % 24 < 0.000001 ) {
-      syAdd(f);
+      syAdd(f,expression);
       return expression;
     } else {
       return false;
